@@ -2,6 +2,7 @@ package jcprofiler.profiling;
 
 import cz.muni.fi.crocs.rcard.client.CardManager;
 
+import cz.muni.fi.crocs.rcard.client.Util;
 import jcprofiler.args.Args;
 import jcprofiler.util.JCProfilerUtil;
 
@@ -10,6 +11,9 @@ import org.apache.commons.csv.CSVPrinter;
 import spoon.reflect.CtModel;
 import spoon.reflect.declaration.CtConstructor;
 
+import javax.smartcardio.CardException;
+import javax.smartcardio.CommandAPDU;
+import javax.smartcardio.ResponseAPDU;
 import java.io.IOException;
 
 /**
@@ -35,6 +39,19 @@ public class CustomProfiler extends AbstractProfiler {
     protected void profileImpl() {
         if (!(profiledExecutable instanceof CtConstructor))
             generateInputs(args.repeatCount);
+        CommandAPDU apdu = getInputAPDU(1);
+        final String input = Util.bytesToHex(apdu.getBytes());
+        for (int r = 0; r < args.repeatCount; r++) {
+
+
+            log.info("Round: {}/{} APDU: {}", r, args.repeatCount, input);
+
+            ResponseAPDU response = cardManager.transmit(apdu);
+
+            log.info("SW: {}, Response: {}", response.getSW(), response.toString());
+        }
+
+        resetApplet();
     }
 
     /**

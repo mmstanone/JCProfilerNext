@@ -34,9 +34,11 @@ dependencies {
     implementation 'org.apache.ant:ant:1.10.12'
     implementation 'com.github.martinpaljak:ant-javacard:21.12.31'
     implementation 'com.github.martinpaljak:gptool:20.08.12'
+    implementation 'com.github.martinpaljak:apdu4j-jnasmartcardio:0.2.7+210312'
 
     implementation 'com.klinec:javacard-tools:1.0.5'
     implementation 'com.klinec:jcardsim:3.0.5.11'
+    implementation 'io.github.jnasmartcardio:jnasmartcardio:0.2.7'
 
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.commons:commons-csv:1.9.0'
